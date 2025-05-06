@@ -1,99 +1,71 @@
-# Vending Machine – Verilog HDL
 
-This project involves the design and implementation of a **vending machine** using **Verilog HDL**. The vending machine can dispense four different products with varying prices and has the capability to return change when a higher denomination coin is inserted. It accepts only two denominations: **Nickel (5)** and **Dime (10)**.
+# Vending Machine - Verilog HDL
 
----
+The project involved designing a vending machine that could dispense four different products with varying prices and has the additional feature of returning change when a higher denomination coin was inserted. The vending machine only accepts coins of denominations five and ten.
 
-## 🧠 Project Overview
+The design of the vending machine was accomplished through the creation of a Finite State Machine (FSM) model, which defined the machine's different states, inputs, and outputs, as well as the transitions between the states. The FSM model was implemented using Verilog code, which defined the different states and their corresponding logic for accepting coins, dispensing products, and returning change.
 
-- Developed using a **Finite State Machine (FSM)** model.
-- Accepts coin input, dispenses products, and returns change accordingly.
-- Fully simulated using a testbench to verify functionality across multiple scenarios.
-- Focused on digital design principles and FSM logic using Verilog.
+A test-bench was created to simulate different scenarios, such as different coin denominations and product selections, to ensure that the vending machine worked correctly. The testing process was successful in verifying the proper functioning of the vending machine.
 
----
+This project required knowledge of Verilog, FSMs, and digital design principles and provided a challenging and rewarding opportunity to better understand how vending machines operate. The completed project was a functional and efficient vending machine that could dispense products and return change with ease.
 
-## ⚙️ Specifications
+## Authors
 
-### 📥 Inputs:
-- `item_number[3:0]`: 4-bit input to select one of the four products.
-- `nickel_in`: Indicates insertion of a nickel.
-- `dime_in`: Indicates insertion of a dime.
-- `clock`: Clock signal for FSM synchronization.
-- `reset`: Resets the vending machine to the initial state.
+- [@OptimalKnight](https://www.github.com/OptimalKnight)
+- [@Amank2854](https://www.github.com/Amank2854)
 
-### 📤 Outputs:
-- `nickel_out`: Outputs a nickel as change if required.
-- `dispense`: Indicates the selected item is ready to be dispensed.
 
-### 🧮 Internal Variables:
-- `current_state`: Holds the current state of the FSM.
-- `next_state`: Determines the next state based on input.
+## Run Locally
 
----
+Follow along [these](https://medium.com/macoclock/running-verilog-code-on-linux-mac-3b06ddcccc55) steps for running Verilog code on Linux/Mac.
 
-## 🧩 Modules
 
-- `Item_One(...)`: Handles transactions for item 1.
-- `Item_Two(...)`: Handles transactions for item 2.
-- `Item_Three(...)`: Handles transactions for item 3.
-- `Item_Four(...)`: Handles transactions for item 4.
-- `VendingMachine(...)`: Top-level module that routes control to the appropriate item module based on user input.
+## Specifications
 
----
+- **Inputs:** item_number[3:0], nickel_in, dime_in, clock, reset.
+- **Outputs:** nickel_out, dispense.
+- **Other Variables:** current_state, next_state.
+## Significance Of The Specifications
 
-## 🚀 How It Works
+- **item_number:** Indicates which of the four items is selected.
+- **nickel_in:** Indicates whether the user has inserted a Nickel or not.
+- **dime_in:** Indicates whether the user has inserted a Dime or not.
+- **nickel_out:** Indicates whether a Nickel is given out as change or not.
+- **dispense:** Indicates whether the item is ready to be dispensed or not.
+- **current_state:** Stores the current state of the FSM.
+- **next_state:** Stores the next state to be achieved by the FSM.
+## Modules
 
-1. **Select** the desired item using `item_number`.
-2. The machine initializes (`S0`) and waits for coin input.
-3. Coins are inserted one per clock cycle.
-4. Once enough value is inserted:
-   - The item is **dispensed**.
-   - **Change** is returned if needed.
-5. The system **resets** and waits for the next transaction.
+    module Item_One(nickel_in, dime_in, clock, reset, nickel_out, dispense)
+This module is responsible for the functioning of the machine if the first item is selected.
 
-### 💡 Example Scenario:
-- Select `item_number = 3` (Cost = 25).
-- Insert coins in the following order:
-  - Nickel → State: `S5`
-  - Dime → State: `S15`
-  - Nickel → State: `S20`
-  - Dime → State: `S30` → Dispense Item + Return Nickel
-- Machine resets to `S0`.
+    module Item_Two(nickel_in, dime_in, clock, reset, nickel_out, dispense)
+This module is responsible for the functioning of the machine if the second item is selected. 
 
----
+    module Item_Three(nickel_in, dime_in, clock, reset, nickel_out, dispense)
+This module is responsible for the functioning of the machine if the third item is selected. 
 
-## 🧪 Testbench
+    module Item_Four(nickel_in, dime_in, clock, reset, nickel_out, dispense)
+This module is responsible for the functioning of the machine if the fourth item is selected. 
 
-A dedicated testbench simulates various scenarios, including:
-- Different coin insertion sequences.
-- Selection of all four products.
-- Change return scenarios.
+    module VendingMachine(item_number, nickel_in, dime_in, clock, reset, nickel_out, dispense)
+This module is responsible for selecting one of the four modules as per the user’s choice.
+## Working
 
----
+To operate the vending machine, the user first selects the item they wish to purchase. The machine then sets the values for nickel_in and dime_in to 0. The user can then insert either 1 Nickel or 1 Dime per cycle into the machine. The vending machine will not dispense the item until the required amount for the selected item is collected. Once enough money is collected, the machine will dispense the chosen item along with any change that is owed, and the cycle will continue.
+## Example
+
+- We selected Item number 3. The cost of this item is 25.
+- The state of the machine is initialized to S0.
+- We inserted 1 Nickel, so the current state switches to S5.
+- We then inserted 1 Dime, so the current state switches to S15.
+- Then no coin is inserted into the machine, so the state of the machine remains unchanged.
+- 1 Nickel is again inserted, so the current state becomes S20.
+- 1 Dime is inserted, which makes the current state S30. This state makes the machine dispense the selected item and also outputs one Nickel as the change since the cost of the article is only 25.
+- After the state S30 is reached, the machine resets and goes back to state S0.
 
 
 
-## 🛠️ Technologies Used
+## Future Scope
 
-- **Verilog HDL**
-- **Finite State Machines (FSM)**
-- **ModelSim / GTKWave** (for simulation)
-- **Digital Design Principles**
-
----
-
-## 🔮 Future Scope
-
-- Add a **termination button** to allow users to cancel a transaction and return all inserted coins sequentially.
-- Extend support to more coin denominations.
-- Implement real-world FPGA-based deployment using Xilinx or Altera boards.
-
----
-
-## 📦 Run Locally
-
-Follow these steps to simulate the Verilog code on Linux/Mac:
-
-1. Install [Icarus Verilog](http://iverilog.icarus.com/) and [GTKWave](http://gtkwave.sourceforge.net/).
-
+We can further add a termination button to the machine. This button would allow the user to terminate the purchase process and receive all the money back sequentially.
